@@ -4,7 +4,7 @@ FROM ubuntu:14.04
 RUN apt-get install -y python-setuptools
 
 #Install django
-RUN apt-get install -y django
+RUN apt-get install -y python-django
 
 #Bundle polls
 ADD . /app
