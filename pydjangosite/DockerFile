@@ -10,7 +10,7 @@ RUN apt-get install -y django
 ADD . /app
 
 #Expose
-EXPOSE 5000
+EXPOSE 8000
 
 #Run
 CMD ["python", "/app/manage.py", "runserver", "0.0.0.0:8000"]
