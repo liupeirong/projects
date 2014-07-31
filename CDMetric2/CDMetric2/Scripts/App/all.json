@@ -1,0 +1,11 @@
+﻿[
+	[
+		{"name":"rollout1", "value":10},
+		{"name":"stage1", "value":20}
+	]
+,
+	[
+		{"name":"perf", "value":10},
+		{"name":"relevance", "value":20}
+	]
+]

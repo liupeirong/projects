@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html ng-app="mainApp" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Continuous Deployment Metrics</title>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/angular-resource.js"></script>
+    <script src="~/Scripts/App/metricService.js"></script>
+    <script src="~/Scripts/App/metricControllers.js"></script>
+    <script src="~/Scripts/App/app.js"></script>
+</head>
+
+<body ng-controller="metricListController">
+    <div class="metrics">
+        <div ng-repeat="metric in metrics">
+            {{metric.ChangeNumber}}, {{metric.RolloutName}}, {{metric.StageName}}
+        </div>
+    </div>
+</body>
+</html>
