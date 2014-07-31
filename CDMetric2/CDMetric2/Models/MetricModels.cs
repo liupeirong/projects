@@ -12,9 +12,9 @@ namespace CDMetric2.Models
         [Key, Column(Order = 1)]
         public string RolloutName { get; set; }
         [Key, Column(Order = 2)]
-        public string MasterEnvironment { get; set; }
-        [Key, Column(Order = 3)]
         public string StageName { get; set; }
+        [Key, Column(Order = 3)]
+        public int DurationInMin { get; set; }
     }
 
 }
