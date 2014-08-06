@@ -1,11 +1,11 @@
 ﻿var metricControllers = angular.module('metricControllers', ['metricService']);
 
-metricControllers.controller('metricListController', ['$scope', 'Metrics', function ($scope, Metrics) {
+metricControllers.controller('metricListController', ['$scope', 'RolloutDetails', function ($scope, RolloutDetails) {
     var metrics = [];
-    Metrics.query(function (data) {
+    RolloutDetails.query(function (data) {
             angular.forEach(data, function (metric) {
                 metrics.push(metric);
             })
         });
-    $scope.metrics = metrics;
+    $scope.rolloutDetails = metrics;
 }]);

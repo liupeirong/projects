@@ -40,3 +40,12 @@ input[type="checkbox"].input-validation-error {
 .validation-summary-valid {
     display: none;
 }
+
+table,th,td {
+    border:1px solid #808080;
+}
+
+table thead {
+    background-color:#eee;
+    color:#666666;
+}

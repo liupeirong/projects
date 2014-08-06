@@ -13,6 +13,6 @@ namespace CDMetric2.Models
             Database.SetInitializer<MetricContext>(null);
         }
 
-        public DbSet<Metric> Metrics {get; set;}
+        public DbSet<RolloutDetails> RolloutDetailsTable {get; set;}
     }
 }

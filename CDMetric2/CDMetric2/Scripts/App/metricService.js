@@ -1,7 +1,7 @@
 ﻿var metricService = angular.module('metricService', ['ngResource']);
 
-metricService.factory('Metrics', ['$resource', function ($resource) {
-        return $resource('/api/Metric', {}, {
+metricService.factory('RolloutDetails', ['$resource', function ($resource) {
+        return $resource('/api/RolloutDetails', {}, {
             query: { method: 'GET', params: {}, isArray: true }
         });
     }
