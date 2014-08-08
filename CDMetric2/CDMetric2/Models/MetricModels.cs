@@ -10,14 +10,24 @@ namespace CDMetric2.Models
     {
         [Key, Column(Order = 0)]
         public int ChangeNumber { get; set; }
-        [Key, Column(Order = 1)]
         public string RolloutName { get; set; }
-        [Key, Column(Order = 2)]
+        [Key, Column(Order = 1)]
         public string StageName { get; set; }
-        [Key, Column(Order = 3)]
         public int DurationInMin { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+    }
+
+    [Table("StageRolloutSummary")]
+    public class RolloutSummary
+    {
+        [Key, Column(Order = 0)]
+        public int ChangeNumber { get; set; }
+        public string RolloutName { get; set; }
+        public int DurationInMin { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public virtual ICollection<RolloutDetails> Stages { get; set; }
     }
 
 }

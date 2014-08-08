@@ -18,6 +18,12 @@ namespace CDMetric2
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            //routes.MapRoute(
+            //    name: "Catch all route for SPA",
+            //    url: "{*catchall}",
+            //    defaults: new { controller = "Home", action = "Index"}
+            //);
         }
     }
 }

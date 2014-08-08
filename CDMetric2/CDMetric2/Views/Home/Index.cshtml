@@ -4,37 +4,14 @@
     <title>Continuous Deployment Metrics</title>
     <script src="~/Scripts/angular.js"></script>
     <script src="~/Scripts/angular-resource.js"></script>
+    <script src="~/Scripts/angular-route.js"></script>
     <script src="~/Scripts/sorttable.js"></script>
-    <script src="~/Scripts/tree-grid-directive.js"></script>
     <script src="~/Scripts/App/metricService.js"></script>
     <script src="~/Scripts/App/metricControllers.js"></script>
     <script src="~/Scripts/App/app.js"></script>
 </head>
 
-<body ng-controller="metricListController">
-    <table class="rolloutDetails sortable">
-        <caption>Rollout Details</caption>
-        <thead>
-            <tr>
-                <th class="sorttable_numeric">ID</th>
-                <th>Name</th>
-                <th>Stage</th>
-                <th class="sorttable_numeric">Duration</th>
-                <th>StartTime</th>
-                <th>EndTime</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="rollout in rolloutDetails">
-                <td>{{rollout.ChangeNumber}}</td>
-                <td>{{rollout.RolloutName}}</td>
-                <td>{{rollout.StageName}}</td>
-                <td>{{rollout.DurationInMin}}</td>
-                <td>{{rollout.StartTime}}</td>
-                <td>{{rollout.EndTime}}</td>
-            </tr>
-        </tbody>
-    </table>
-    <tree-grid tree-data="rollout_tree_data"></tree-grid>
+<body>
+    <div ng-view id="mainView"></div>
 </body>
 </html>

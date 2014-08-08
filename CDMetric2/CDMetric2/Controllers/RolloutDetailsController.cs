@@ -37,9 +37,9 @@ namespace CDMetric2.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [ResponseType(typeof(RolloutDetails))]
-        public async Task<IHttpActionResult> GetRolloutDetails(string id)
+        public async Task<IHttpActionResult> GetRolloutDetails(int id)
         {
-            RolloutDetails metric = await db.RolloutDetailsTable.FindAsync(id);
+            List<RolloutDetails> metric = await db.RolloutDetailsTable.Where(x => x.ChangeNumber == id).ToListAsync();
             if (metric == null)
             {
                 return NotFound();

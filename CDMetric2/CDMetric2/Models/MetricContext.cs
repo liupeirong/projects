@@ -14,5 +14,7 @@ namespace CDMetric2.Models
         }
 
         public DbSet<RolloutDetails> RolloutDetailsTable {get; set;}
+
+        public System.Data.Entity.DbSet<CDMetric2.Models.RolloutSummary> RolloutSummaries { get; set; }
     }
 }
