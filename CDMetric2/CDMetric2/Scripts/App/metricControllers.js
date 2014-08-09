@@ -1,13 +1,19 @@
 ﻿var metricControllers = angular.module('metricControllers', ['metricService']);
 
 metricControllers.controller('rolloutDetailsController', ['$scope', 'RolloutDetails', function ($scope, RolloutDetails) {
-    var metrics = [];
+    $scope.mydata = [];
+    $scope.filterOptions = {
+        filterText: ''
+    };
     RolloutDetails.query(function (data) {
             angular.forEach(data, function (metric) {
-                metrics.push(metric);
+                $scope.mydata.push(metric);
             })
-        });
-    $scope.rolloutDetails = metrics;
+    });
+    $scope.rolloutDetails = {
+        data: 'mydata',
+        filterOptions: $scope.filterOptions
+    };
 }]);
 
 metricControllers.controller('rolloutSummaryController', ['$scope', 'RolloutSummary', function ($scope, RolloutSummary) {

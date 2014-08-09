@@ -1,23 +1,6 @@
-﻿<table class="rolloutDetails sortable" ng-controller="rolloutDetailsController">
-    <caption>Rollout Details</caption>
-    <thead>
-        <tr>
-            <th class="sorttable_numeric">ID</th>
-            <th>Name</th>
-            <th>Stage</th>
-            <th class="sorttable_numeric">Duration</th>
-            <th>StartTime</th>
-            <th>EndTime</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="rollout in rolloutDetails">
-            <td>{{rollout.ChangeNumber}}</td>
-            <td>{{rollout.RolloutName}}</td>
-            <td>{{rollout.StageName}}</td>
-            <td>{{rollout.DurationInMin}}</td>
-            <td>{{rollout.StartTime}}</td>
-            <td>{{rollout.EndTime}}</td>
-        </tr>
-    </tbody>
-</table>
+﻿<div ng-controller="rolloutDetailsController">
+    <strong>Filter:&nbsp;</strong><input type="text" ng-model="filterOptions.filterText" />
+    <br />
+    <br />
+    <div class="gridStyle" ng-grid="rolloutDetails"></div>
+</div>

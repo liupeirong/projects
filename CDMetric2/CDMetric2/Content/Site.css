@@ -49,3 +49,7 @@ table thead {
     background-color:#eee;
     color:#666666;
 }
+
+.gridStyle {
+    height: 800px
+}
