@@ -25,6 +25,7 @@ namespace CDMetric2.Controllers
         {
             IQueryable<RolloutDetails> query =
                 from metric in db.RolloutDetailsTable.Distinct()
+                orderby metric.ChangeNumber, metric.StartTime ascending
                 select metric;
                 //group metric by new RolloutDetails { ChangeNumber = metric.ChangeNumber, MasterEnvironment = metric.MasterEnvironment, 
                 //    RolloutName=metric.RolloutName, StageName=metric.StageName } into g

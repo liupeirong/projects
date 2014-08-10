@@ -1,4 +1,4 @@
-﻿var mainApp = angular.module('mainApp', ['ngRoute', 'ngGrid', 'metricControllers', 'metricService']);
+﻿var mainApp = angular.module('mainApp', ['ngRoute', 'ngGrid', 'treeGrid', 'metricControllers', 'metricService']);
 
 mainApp.config([
     '$routeProvider',

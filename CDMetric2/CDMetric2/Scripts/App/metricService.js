@@ -8,8 +8,8 @@ metricService.factory('RolloutDetails', ['$resource', function ($resource) {
 ])
 
 metricService.factory('RolloutSummary', ['$resource', function ($resource) {
-    return $resource('/api/RolloutSummary', {}, {
-        query: { method: 'GET', params: {}, isArray: true }
-    });
-}
+        return $resource('/api/RolloutSummary', {}, {
+            query: { method: 'GET', params: {}, isArray: true }
+        });
+    }
 ])

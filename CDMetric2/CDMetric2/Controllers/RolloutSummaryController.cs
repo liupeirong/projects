@@ -20,7 +20,11 @@ namespace CDMetric2.Controllers
         // GET api/RolloutSummary
         public IQueryable<RolloutSummary> GetRolloutSummaries()
         {
-            return db.RolloutSummaries;
+            IQueryable<RolloutSummary> query =
+                from metric in db.RolloutSummaries
+                orderby metric.StartTime descending
+                select metric;
+            return query;
         }
 
         // GET api/RolloutSummary/5

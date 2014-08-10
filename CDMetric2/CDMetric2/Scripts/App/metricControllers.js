@@ -17,11 +17,19 @@ metricControllers.controller('rolloutDetailsController', ['$scope', 'RolloutDeta
 }]);
 
 metricControllers.controller('rolloutSummaryController', ['$scope', 'RolloutSummary', function ($scope, RolloutSummary) {
-    var metrics = [];
+    var tree;
+    $scope.my_tree = tree = {};
+    $scope.expanding_property = "RolloutName";
+    $scope.col_defs = [
+        { field: "StageName" },
+        { field: "StartTime" },
+        { field: "EndTime" },
+        { field: "DurationInMin" }
+    ];
+    $scope.tree_data = [];
     RolloutSummary.query(function (data) {
         angular.forEach(data, function (metric) {
-            metrics.push(metric);
-        })
+            $scope.tree_data.push(metric);
+        });
     });
-    $scope.rolloutSummary = metrics;
 }]);

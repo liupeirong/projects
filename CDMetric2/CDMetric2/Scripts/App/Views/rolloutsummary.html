@@ -1,26 +1,34 @@
-﻿<table class="rolloutSummary sortable" ng-controller="rolloutSummaryController">
-    <caption>Rollout Summary</caption>
-    <thead>
-        <tr>
-            <th class="sorttable_numeric">ID</th>
-            <th>Duration</th>
-            <th>StartTime</th>
-            <th>EndTime</th>
-        </tr>
-    </thead>
-    <tbody ng-repeat="rs in rolloutSummary">
-        <tr>
-            <td>{{rs.ChangeNumber}}:{{rs.RolloutName}}</td>
-            <td>{{rs.DurationInMin}}</td>
-            <td>{{rs.StartTime}}</td>
-            <td>{{rs.EndTime}}</td>
-        </tr>
-        <tr ng-repeat="stage in rs.Stages">
-            <td>&nbsp;&nbsp;&nbsp;&nbsp;{{stage.StageName}}</td>
-            <td>{{stage.DurationInMin}}</td>
-            <td>{{stage.StartTime}}</td>
-            <td>{{stage.EndTime}}</td>
-        </tr>
-    </tbody>
-</table>
-
+﻿<div ng-controller="rolloutSummaryController">
+    <button ng-click="my_tree.expand_all()" class="btn btn-default btn-sm">Expand All</button>
+    <button ng-click="my_tree.collapse_all()" class="btn btn-default btn-sm">Collapse All</button>
+    <br />
+    <br />
+    <tree-grid tree-data="tree_data" col-defs="col_defs" expand-on="expanding_property" tree-control="my_tree"></tree-grid>
+</div>
+    <!--
+    <table class="rolloutSummary sortable" ng-controller="rolloutSummaryController">
+        <caption>Rollout Summary</caption>
+        <thead>
+            <tr>
+                <th class="sorttable_numeric">ID</th>
+                <th>Duration</th>
+                <th>StartTime</th>
+                <th>EndTime</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="rs in rolloutSummary">
+            <tr>
+                <td>{{rs.ChangeNumber}}:{{rs.RolloutName}}</td>
+                <td>{{rs.DurationInMin}}</td>
+                <td>{{rs.StartTime}}</td>
+                <td>{{rs.EndTime}}</td>
+            </tr>
+            <tr ng-repeat="stage in rs.Stages">
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;{{stage.StageName}}</td>
+                <td>{{stage.DurationInMin}}</td>
+                <td>{{stage.StartTime}}</td>
+                <td>{{stage.EndTime}}</td>
+            </tr>
+        </tbody>
+    </table>
+    -->

@@ -27,7 +27,7 @@ namespace CDMetric2.Models
         public int DurationInMin { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public virtual ICollection<RolloutDetails> Stages { get; set; }
+        public virtual ICollection<RolloutDetails> children { get; set; }
     }
 
 }
