@@ -41,7 +41,7 @@ input[type="checkbox"].input-validation-error {
     display: none;
 }
 
-table,th,td {
+.tree_table,th,td {
     border:1px solid #808080;
 }
 
@@ -59,6 +59,8 @@ table thead {
     height: 300px;
 }
 
-.charttable table,td{
+.charttable,td{
     border: 0px;
+    border-collapse: separate;
+    border-spacing: 50px;
 }

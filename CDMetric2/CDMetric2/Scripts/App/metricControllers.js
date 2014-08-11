@@ -48,11 +48,13 @@ metricControllers.controller('rolloutChartsController', ['$scope', 'RolloutDetai
 
     RolloutDetails.query(function (data) {
         angular.forEach(data, function (metric) {
+            var duration = (metric.DurationInMin / 60);
+
             if (metric.ChangeNumber != lastChangeNumber) {
                 var point = {};
                 point.x = metric.ChangeNumber.toString();
                 point.y = [];
-                point.y.push(metric.DurationInMin);
+                point.y.push(duration);
                 if (metric.RolloutName.indexOf('MMServe') > -1) {
                     if (!(metric.StageName in series_mm))
                         series_mm[metric.StageName] = 0;
@@ -75,19 +77,19 @@ metricControllers.controller('rolloutChartsController', ['$scope', 'RolloutDetai
                 if (metric.RolloutName.indexOf('MMServe') > -1) {
                     if (!(metric.StageName in series_mm))
                         series_mm[metric.StageName] = 0;
-                    $scope.data_mm.data[$scope.data_mm.data.length - 1].y.push(metric.DurationInMin);
+                    $scope.data_mm.data[$scope.data_mm.data.length - 1].y.push(duration);
                 } else if (metric.RolloutName.indexOf('caption') > -1) {
                     if (!(metric.StageName in series_caption))
                         series_caption[metric.StageName] = 0;
-                    $scope.data_caption.data[$scope.data_caption.data.length - 1].y.push(metric.DurationInMin);
+                    $scope.data_caption.data[$scope.data_caption.data.length - 1].y.push(duration);
                 } else if (metric.RolloutName.indexOf('Feeds') > -1) {
                     if (!(metric.StageName in series_feeds))
                         series_feeds[metric.StageName] = 0;
-                    $scope.data_feeds.data[$scope.data_feeds.data.length - 1].y.push(metric.DurationInMin);
+                    $scope.data_feeds.data[$scope.data_feeds.data.length - 1].y.push(duration);
                 } else {
                     if (!(metric.StageName in series_web))
                         series_web[metric.StageName] = 0;
-                    $scope.data_web.data[$scope.data_web.data.length - 1].y.push(metric.DurationInMin);
+                    $scope.data_web.data[$scope.data_web.data.length - 1].y.push(duration);
                 }
             }
         });
@@ -106,7 +108,7 @@ metricControllers.controller('rolloutChartsController', ['$scope', 'RolloutDetai
     });
 
     $scope.config_web = {
-        title: 'Web',
+        title: 'Web stage time in hours',
         tooltips: true,
         labels: false,
         mouseover: function () { },
@@ -118,7 +120,7 @@ metricControllers.controller('rolloutChartsController', ['$scope', 'RolloutDetai
         }
     };
     $scope.config_caption = {
-        title: 'Caption',
+        title: 'Caption stage time in hours',
         tooltips: true,
         labels: false,
         mouseover: function () { },
@@ -130,7 +132,7 @@ metricControllers.controller('rolloutChartsController', ['$scope', 'RolloutDetai
         }
     };
     $scope.config_mm = {
-        title: 'MultiMedia',
+        title: 'MultiMedia stage time in hours',
         tooltips: true,
         labels: false,
         mouseover: function () { },
@@ -142,7 +144,7 @@ metricControllers.controller('rolloutChartsController', ['$scope', 'RolloutDetai
         }
     };
     $scope.config_feeds = {
-        title: 'Feeds',
+        title: 'Feeds stage time in hours',
         tooltips: true,
         labels: false,
         mouseover: function () { },
