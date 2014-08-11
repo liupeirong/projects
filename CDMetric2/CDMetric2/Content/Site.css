@@ -51,5 +51,14 @@ table thead {
 }
 
 .gridStyle {
-    height: 800px
+    height: 800px;
+}
+
+.chart {
+    width: 500px;
+    height: 300px;
+}
+
+.charttable table,td{
+    border: 0px;
 }

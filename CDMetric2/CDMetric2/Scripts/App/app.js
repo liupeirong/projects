@@ -1,4 +1,4 @@
-﻿var mainApp = angular.module('mainApp', ['ngRoute', 'ngGrid', 'treeGrid', 'metricControllers', 'metricService']);
+﻿var mainApp = angular.module('mainApp', ['ngRoute', 'ngGrid', 'treeGrid', 'angularCharts', 'metricControllers', 'metricService']);
 
 mainApp.config([
     '$routeProvider',
@@ -11,6 +11,10 @@ mainApp.config([
         when('/rolloutdetails', {
             templateUrl: '/Scripts/app/Views/rolloutdetails.html',
             controller: 'rolloutDetailsController'
+        }).
+        when('/rolloutcharts', {
+            templateUrl: '/Scripts/app/Views/rolloutcharts.html',
+            controller: 'rolloutChartsController'
         }).
         otherwise({
             redirectTo: '/rolloutsummary'

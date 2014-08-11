@@ -33,3 +33,124 @@ metricControllers.controller('rolloutSummaryController', ['$scope', 'RolloutSumm
         });
     });
 }]);
+
+metricControllers.controller('rolloutChartsController', ['$scope', 'RolloutDetails', function ($scope, RolloutDetails) {
+    var lastChangeNumber = 0;
+    var series_web = {};
+    var series_caption = {};
+    var series_mm = {};
+    var series_feeds = {};
+    
+    $scope.data_web = {series: [], data: []};
+    $scope.data_caption = { series: [], data: [] };
+    $scope.data_mm = { series: [], data: [] };
+    $scope.data_feeds = { series: [], data: [] };
+
+    RolloutDetails.query(function (data) {
+        angular.forEach(data, function (metric) {
+            if (metric.ChangeNumber != lastChangeNumber) {
+                var point = {};
+                point.x = metric.ChangeNumber.toString();
+                point.y = [];
+                point.y.push(metric.DurationInMin);
+                if (metric.RolloutName.indexOf('MMServe') > -1) {
+                    if (!(metric.StageName in series_mm))
+                        series_mm[metric.StageName] = 0;
+                    $scope.data_mm.data.push(point);
+                } else if (metric.RolloutName.indexOf('caption') > -1) {
+                    if (!(metric.StageName in series_caption))
+                        series_caption[metric.StageName] = 0;
+                    $scope.data_caption.data.push(point);
+                } else if (metric.RolloutName.indexOf('Feeds') > -1) {
+                    if (!(metric.StageName in series_feeds))
+                        series_feeds[metric.StageName] = 0;
+                    $scope.data_feeds.data.push(point);
+                } else {
+                    if (!(metric.StageName in series_web))
+                        series_web[metric.StageName] = 0;
+                    $scope.data_web.data.push(point);
+                }
+                lastChangeNumber = metric.ChangeNumber;
+            } else {
+                if (metric.RolloutName.indexOf('MMServe') > -1) {
+                    if (!(metric.StageName in series_mm))
+                        series_mm[metric.StageName] = 0;
+                    $scope.data_mm.data[$scope.data_mm.data.length - 1].y.push(metric.DurationInMin);
+                } else if (metric.RolloutName.indexOf('caption') > -1) {
+                    if (!(metric.StageName in series_caption))
+                        series_caption[metric.StageName] = 0;
+                    $scope.data_caption.data[$scope.data_caption.data.length - 1].y.push(metric.DurationInMin);
+                } else if (metric.RolloutName.indexOf('Feeds') > -1) {
+                    if (!(metric.StageName in series_feeds))
+                        series_feeds[metric.StageName] = 0;
+                    $scope.data_feeds.data[$scope.data_feeds.data.length - 1].y.push(metric.DurationInMin);
+                } else {
+                    if (!(metric.StageName in series_web))
+                        series_web[metric.StageName] = 0;
+                    $scope.data_web.data[$scope.data_web.data.length - 1].y.push(metric.DurationInMin);
+                }
+            }
+        });
+        for (var key in series_web) {
+            $scope.data_web.series.push(key);
+        }
+        for (var key in series_caption) {
+            $scope.data_caption.series.push(key);
+        }
+        for (var key in series_mm) {
+            $scope.data_mm.series.push(key);
+        }
+        for (var key in series_feeds) {
+            $scope.data_feeds.series.push(key);
+        }
+    });
+
+    $scope.config_web = {
+        title: 'Web',
+        tooltips: true,
+        labels: false,
+        mouseover: function () { },
+        mouseout: function () { },
+        click: function () { },
+        legend: {
+            display: true,
+            position: 'right'
+        }
+    };
+    $scope.config_caption = {
+        title: 'Caption',
+        tooltips: true,
+        labels: false,
+        mouseover: function () { },
+        mouseout: function () { },
+        click: function () { },
+        legend: {
+            display: true,
+            position: 'right'
+        }
+    };
+    $scope.config_mm = {
+        title: 'MultiMedia',
+        tooltips: true,
+        labels: false,
+        mouseover: function () { },
+        mouseout: function () { },
+        click: function () { },
+        legend: {
+            display: true,
+            position: 'right'
+        }
+    };
+    $scope.config_feeds = {
+        title: 'Feeds',
+        tooltips: true,
+        labels: false,
+        mouseover: function () { },
+        mouseout: function () { },
+        click: function () { },
+        legend: {
+            display: true,
+            position: 'right'
+        }
+    };
+}]);
