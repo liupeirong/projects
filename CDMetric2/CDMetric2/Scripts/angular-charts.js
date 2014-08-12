@@ -79,13 +79,13 @@ angular.module('angularCharts').directive('acChart', [
             position: 'left'
           },
           colors: [
-            'rgb(204, 0, 204)',
+            'rgb(0, 153, 0)',
             'rgb(255,153,0)',
             'rgb(220,57,18)',
             'rgb(70,132,238)',
             'rgb(51,0,102)',
             'rgb(255,255,0)',
-            'rgb(0, 153, 0)'
+            'rgb(204, 0, 204)'
           ],
           innerRadius: 0,
           lineLegend: 'lineEnd'

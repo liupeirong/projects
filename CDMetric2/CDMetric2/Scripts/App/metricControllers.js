@@ -34,7 +34,7 @@ metricControllers.controller('rolloutSummaryController', ['$scope', 'RolloutSumm
     });
 }]);
 
-metricControllers.controller('rolloutChartsController', ['$scope', 'RolloutDetails', function ($scope, RolloutDetails) {
+metricControllers.controller('rolloutChartsController', ['$scope', 'RolloutDetails', 'RolloutSummary', function ($scope, RolloutDetails, RolloutSummary) {
     var stages_web = {};
     var stages_caption = {};
     var stages_mm = {};
@@ -52,7 +52,7 @@ metricControllers.controller('rolloutChartsController', ['$scope', 'RolloutDetai
 
     RolloutDetails.query(function (data) {
         angular.forEach(data, function (metric) {
-            var duration = (metric.DurationInMin / 60);
+            var duration = ((metric.DurationInMin / 60).toFixed(1))/1;
             var changeNumber = metric.ChangeNumber.toString();
 
             //create stages data structure like this: 
@@ -63,40 +63,51 @@ metricControllers.controller('rolloutChartsController', ['$scope', 'RolloutDetai
             //            "changeNumber1": duration
             //           };
             //}
-            //create rollouts as an associative array like this, used as a dictionary keys:
-            //{ "changeNumber1":0,
-            //  "changeNumber2":0
-            //}
             if (metric.RolloutName.indexOf('MMServe') > -1) {
                 if (!(metric.StageName in stages_mm))
                     stages_mm[metric.StageName] = {};
-                if (!(changeNumber in rollouts_mm))
-                    rollouts_mm[changeNumber] = 0;
                 stages_mm[metric.StageName][changeNumber] = duration;
             } else if (metric.RolloutName.indexOf('caption') > -1) {
                 if (!(metric.StageName in stages_caption))
                     stages_caption[metric.StageName] = {};
-                if (!(changeNumber in rollouts_caption))
-                    rollouts_caption[changeNumber] = 0;
                 stages_caption[metric.StageName][changeNumber] = duration;
             } else if (metric.RolloutName.indexOf('Feeds') > -1) {
                 if (!(metric.StageName in stages_feeds))
                     stages_feeds[metric.StageName] = {};
-                if (!(changeNumber in rollouts_feeds))
-                    rollouts_feeds[changeNumber] = 0;
                 stages_feeds[metric.StageName][changeNumber] = duration;
             } else {
                 if (!(metric.StageName in stages_web))
                     stages_web[metric.StageName] = {};
-                if (!(changeNumber in rollouts_web))
-                    rollouts_web[changeNumber] = 0;
                 stages_web[metric.StageName][changeNumber] = duration;
             }
         });
-        db2graph(stages_web, rollouts_web, $scope.data_web);
-        db2graph(stages_caption, rollouts_caption, $scope.data_caption);
-        db2graph(stages_mm, rollouts_mm, $scope.data_mm);
-        db2graph(stages_feeds, rollouts_feeds, $scope.data_feeds);
+
+        RolloutSummary.query(function (data) {
+            angular.forEach(data, function (metric) {
+                var changeNumber = metric.ChangeNumber.toString();
+                //create rollouts as an associative array like this, used as a dictionary keys:
+                //{ "startTime1":changeNumber1,
+                //  "startTime2":changeNumber2
+                //}
+                if (metric.RolloutName.indexOf('MMServe') > -1) {
+                    if (!(metric.StartTime in rollouts_mm))
+                        rollouts_mm[metric.StartTime] = changeNumber;
+                } else if (metric.RolloutName.indexOf('caption') > -1) {
+                    if (!(metric.StartTime in rollouts_caption))
+                        rollouts_caption[metric.StartTime] = changeNumber;
+                } else if (metric.RolloutName.indexOf('Feeds') > -1) {
+                    if (!(metric.StartTime in rollouts_feeds))
+                        rollouts_feeds[metric.StartTime] = changeNumber;
+                } else {
+                    if (!(metric.StartTime in rollouts_web))
+                        rollouts_web[metric.StartTime] = changeNumber;
+                }
+            });
+            db2graph(stages_web, rollouts_web, $scope.data_web);
+            db2graph(stages_caption, rollouts_caption, $scope.data_caption);
+            db2graph(stages_mm, rollouts_mm, $scope.data_mm);
+            db2graph(stages_feeds, rollouts_feeds, $scope.data_feeds);
+        });
     });
 
     $scope.config_web = {
@@ -169,15 +180,19 @@ function db2graph(curstages, currollouts, scopedata) {
     rollouts.sort();
 
     for (var k = 0; k < rollouts.length; ++k) {
-        var rollout = rollouts[k];
+        var startTime = rollouts[k];
+        var rolloutDate = new Date(startTime);
+        var changeNumber = currollouts[startTime];
+        var label = (rolloutDate.getMonth()+1).toString() + '/' + rolloutDate.getDate().toString() + '-' + changeNumber;
+
         var point = {};
-        point.x = rollout;
+        point.x = label;
         point.y = [];
         var stages = scopedata.series.length;
         for (var i = 0; i < stages; ++i) {
             var stage = scopedata.series[i];
             var rolloutsInStage = curstages[stage];
-            var duration = (rollout in rolloutsInStage) ? rolloutsInStage[rollout] : 0;
+            var duration = (changeNumber in rolloutsInStage) ? rolloutsInStage[changeNumber] : 0;
             if (duration == null) duration = 0;
             point.y.push(duration);
         }
