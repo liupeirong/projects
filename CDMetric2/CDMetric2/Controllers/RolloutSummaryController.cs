@@ -24,6 +24,11 @@ namespace CDMetric2.Controllers
                 from metric in db.RolloutSummaries
                 orderby metric.StartTime descending
                 select metric;
+
+            foreach (var rollout in query)
+            {
+                rollout.children = rollout.children.OrderBy(c => c.StartTime).ThenBy(c => c.StageName).ToList();
+            }
             return query;
         }
 

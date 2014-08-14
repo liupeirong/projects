@@ -25,7 +25,7 @@ namespace CDMetric2.Controllers
         {
             IQueryable<RolloutDetails> query =
                 from metric in db.RolloutDetailsTable.Distinct()
-                orderby metric.ChangeNumber, metric.StartTime ascending
+                orderby metric.ChangeNumber, metric.StartTime ascending, metric.StageName
                 select metric;
                 //group metric by new RolloutDetails { ChangeNumber = metric.ChangeNumber, MasterEnvironment = metric.MasterEnvironment, 
                 //    RolloutName=metric.RolloutName, StageName=metric.StageName } into g
@@ -40,7 +40,8 @@ namespace CDMetric2.Controllers
         [ResponseType(typeof(RolloutDetails))]
         public async Task<IHttpActionResult> GetRolloutDetails(int id)
         {
-            List<RolloutDetails> metric = await db.RolloutDetailsTable.Where(x => x.ChangeNumber == id).ToListAsync();
+            List<RolloutDetails> metric = await db.RolloutDetailsTable.Where(x => x.ChangeNumber == id)
+                .OrderBy(x => x.StartTime).ThenBy(x => x.StageName).ToListAsync();
             if (metric == null)
             {
                 return NotFound();
