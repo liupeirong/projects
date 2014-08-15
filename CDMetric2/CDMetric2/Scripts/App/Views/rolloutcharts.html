@@ -1,8 +1,16 @@
 ﻿<div ng-controller="ndv3Controller">
-    <div><nvd3-multi-bar-chart data="data_web" id="webchart" objectequality="true" showxaxis="true" showyaxis="true" showlegend="true" showlable="true" class="chart"><svg></svg></nvd3-multi-bar-chart></div>
-    <div><nvd3-multi-bar-chart data="data_caption" id="captionchart" objectequality="true" showxaxis="true" showyaxis="true" showlegend="true" class="chart"><svg></svg></nvd3-multi-bar-chart></div>
-    <div><nvd3-multi-bar-chart data="data_mm" id="mmchart" objectequality="true" showxaxis="true" showyaxis="true" showlegend="true" class="chart"><svg></svg></nvd3-multi-bar-chart></div>
-    <div><nvd3-multi-bar-chart data="data_feeds" id="feedschart" objectequality="true" showxaxis="true" showyaxis="true" showlegend="true" class="chart"><svg></svg></nvd3-multi-bar-chart></div>
+    <div><nvd3-multi-bar-chart data="data_web" id="webchart" objectequality="true" showxaxis="true" showyaxis="true" showlegend="true" 
+                      width="1200" height="300"
+                      interactive="true" tooltips="true" showControls="true" class="chart"></nvd3-multi-bar-chart></div>
+    <div><nvd3-multi-bar-chart data="data_caption" id="captionchart" objectequality="true" showxaxis="true" showyaxis="true" showlegend="true"
+                      width="1200" height="300"
+                      interactive="true" tooltips="true" showcontrols="true" class="chart"></nvd3-multi-bar-chart></div>
+    <div><nvd3-multi-bar-chart data="data_mm" id="mmchart" objectequality="true" showxaxis="true" showyaxis="true" showlegend="true"
+                      width="1200" height="300"
+                      interactive="true" tooltips="true" showcontrols="true" class="chart"></nvd3-multi-bar-chart></div>
+    <div><nvd3-multi-bar-chart data="data_feeds" id="feedschart" objectequality="true" showxaxis="true" showyaxis="true" showlegend="true"
+                      width="1200" height="300"
+                      interactive="true" tooltips="true" showcontrols="true" class="chart"></nvd3-multi-bar-chart></div>
 </div>            
 <!--
 <div ng-controller="rolloutChartsController">
