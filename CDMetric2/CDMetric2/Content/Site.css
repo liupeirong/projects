@@ -54,11 +54,6 @@ table thead {
     height: 800px;
 }
 
-.chart {
-    width: 800px;
-    height: 500px;
-}
-
 .charttable,td{
     border: 0px;
     border-collapse: separate;
