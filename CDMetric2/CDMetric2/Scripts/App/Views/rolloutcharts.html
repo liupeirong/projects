@@ -1,4 +1,11 @@
-﻿<div ng-controller="rolloutChartsController">
+﻿<div ng-controller="ndv3Controller">
+    <div><nvd3-multi-bar-chart data="data_web" id="webchart" objectequality="true" showxaxis="true" showyaxis="true" showlegend="true" showlable="true" class="chart"><svg></svg></nvd3-multi-bar-chart></div>
+    <div><nvd3-multi-bar-chart data="data_caption" id="captionchart" objectequality="true" showxaxis="true" showyaxis="true" showlegend="true" class="chart"><svg></svg></nvd3-multi-bar-chart></div>
+    <div><nvd3-multi-bar-chart data="data_mm" id="mmchart" objectequality="true" showxaxis="true" showyaxis="true" showlegend="true" class="chart"><svg></svg></nvd3-multi-bar-chart></div>
+    <div><nvd3-multi-bar-chart data="data_feeds" id="feedschart" objectequality="true" showxaxis="true" showyaxis="true" showlegend="true" class="chart"><svg></svg></nvd3-multi-bar-chart></div>
+</div>            
+<!--
+<div ng-controller="rolloutChartsController">
         <div data-ac-chart="'bar'" data-ac-data="data_web" data-ac-config="config_web" class="chart"></div>
     <br />
         <div data-ac-chart="'bar'" data-ac-data="data_caption" data-ac-config="config_caption" class="chart"></div>
@@ -7,3 +14,4 @@
     <br />
         <div data-ac-chart="'bar'" data-ac-data="data_feeds" data-ac-config="config_feeds" class="chart"></div>
 </div>
+-->

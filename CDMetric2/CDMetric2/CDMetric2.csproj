@@ -224,6 +224,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ng-grid.css" />
     <Content Include="Content\ng-grid.min.css" />
+    <Content Include="Content\nv.d3.css" />
     <Content Include="Content\treeGrid.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -249,6 +250,8 @@
     <Content Include="Scripts\angular-touch.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\angularjs-nvd3-directives.js" />
+    <Content Include="Scripts\angularjs-nvd3-directives.min.js" />
     <Content Include="Scripts\App\app.js" />
     <Content Include="Scripts\App\metricControllers.js" />
     <Content Include="Scripts\App\metricService.js" />
@@ -258,6 +261,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\nv.d3.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular-touch.min.js.map" />
     <Content Include="Scripts\angular-sanitize.min.js.map" />
