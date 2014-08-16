@@ -45,6 +45,9 @@ metricControllers.controller('rolloutChartsController', ['$scope', 'RolloutDetai
     var rollouts_mm = {};
     var rollouts_feeds = {};
 
+    var maxTime = "9999-12-31T23:59:59.997";
+    var startTime = "startTime";
+
     $scope.data_web = [];
     $scope.data_caption = [];
     $scope.data_mm = [];
@@ -64,21 +67,37 @@ metricControllers.controller('rolloutChartsController', ['$scope', 'RolloutDetai
             //           };
             //}
             if (metric.RolloutName.indexOf('MMServe') > -1) {
-                if (!(metric.StageName in stages_mm))
+                if (!(metric.StageName in stages_mm)) {
                     stages_mm[metric.StageName] = {};
+                    stages_mm[metric.StageName][startTime] = maxTime;
+                }
                 stages_mm[metric.StageName][changeNumber] = duration;
+                if (stages_mm[metric.StageName][startTime] > metric.StartTime)
+                    stages_mm[metric.StageName][startTime] = metric.StartTime;
             } else if (metric.RolloutName.indexOf('caption') > -1) {
-                if (!(metric.StageName in stages_caption))
+                if (!(metric.StageName in stages_caption)) {
                     stages_caption[metric.StageName] = {};
+                    stages_caption[metric.StageName][startTime] = maxTime;
+                }
                 stages_caption[metric.StageName][changeNumber] = duration;
+                if (stages_caption[metric.StageName][startTime] > metric.StartTime)
+                    stages_caption[metric.StageName][startTime] = metric.StartTime;
             } else if (metric.RolloutName.indexOf('Feeds') > -1) {
-                if (!(metric.StageName in stages_feeds))
+                if (!(metric.StageName in stages_feeds)) {
                     stages_feeds[metric.StageName] = {};
+                    stages_feeds[metric.StageName][startTime] = maxTime;
+                }
                 stages_feeds[metric.StageName][changeNumber] = duration;
+                if (stages_feeds[metric.StageName][startTime] > metric.StartTime)
+                    stages_feeds[metric.StageName][startTime] = metric.StartTime;
             } else {
-                if (!(metric.StageName in stages_web))
+                if (!(metric.StageName in stages_web)) {
                     stages_web[metric.StageName] = {};
+                    stages_web[metric.StageName][startTime] = maxTime;
+                }
                 stages_web[metric.StageName][changeNumber] = duration;
+                if (stages_web[metric.StageName][startTime] > metric.StartTime)
+                    stages_web[metric.StageName][startTime] = metric.StartTime;
             }
         });
 
@@ -125,11 +144,21 @@ metricControllers.controller('rolloutChartsController', ['$scope', 'RolloutDetai
 //       ]
 //}
 function db2d3(curstages, currollouts, scopedata) {
-    var stages = [];
+    var startTime_stages = {}; //{ startTime1: stage1, startTime2: stage2 ...}
     for (var key in curstages) {
-        stages.push(key);
+        startTime_stages[curstages[key]["startTime"]] = key;
     }
-    stages.sort();
+
+    var startTimes = []; //[startTime1, startTime2...]
+    for (var key in startTime_stages) {
+        startTimes.push(key);
+    }
+    startTimes.sort();
+
+    var stages = []; //[stage1, stage2...]
+    for (var k = 0; k < startTimes.length; ++k) {
+        stages.push(startTime_stages[startTimes[k]]);
+    }
 
     var rollouts = [];
     for (var key in currollouts) {
