@@ -17,10 +17,6 @@ namespace CDMetric2.Controllers
     {
         private MetricContext db = new MetricContext();
 
-        /// <summary>
-        /// Get api/RolloutDetails
-        /// </summary>
-        /// <returns></returns>
         public IQueryable<RolloutDetails> GetRolloutDetails()
         {
             IQueryable<RolloutDetails> query =
@@ -32,16 +28,30 @@ namespace CDMetric2.Controllers
             return query;
         }
 
-        /// <summary>
-        /// look up metric by name, GET api/RolloutDetails/5
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         [ResponseType(typeof(RolloutDetails))]
         public async Task<IHttpActionResult> GetRolloutDetails(int id)
         {
             List<RolloutDetails> metric = await db.RolloutDetailsTable.Where(x => x.ChangeNumber == id)
                 .OrderBy(x => x.StartTime).ThenBy(x => x.StageName).ToListAsync();
+            if (metric == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(metric);
+        }
+
+        [ResponseType(typeof(RolloutDetails))]
+        public async Task<IHttpActionResult> GetRolloutDetailsLastN(int n)
+        {
+            string query = n > 0 ? @"
+                select r.* from rolloutstageduration as r join 
+                (select top " + n + @" changenumber, starttime from StageRolloutSummary order by starttime desc) as s on r.changeNumber = s.changenumber
+                order by s.starttime desc, r.StartTime asc, r.StageName" : @"
+                select r.* from
+                StageRolloutSummary s join rolloutstageduration r on s.changenumber = r.changenumber
+                order by s.starttime desc, r.startTime asc, r.stageName";
+            List<RolloutDetails> metric = await db.RolloutDetailsTable.SqlQuery(query).ToListAsync();
             if (metric == null)
             {
                 return NotFound();

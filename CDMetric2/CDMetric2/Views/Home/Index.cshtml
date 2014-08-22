@@ -18,7 +18,11 @@
     <script src="~/Scripts/App/app.js"></script>
 </head>
 
-<body>
-    <div ng-view id="mainView"></div>
+<body ng-controller="globalCfgController">
+    <div>
+        <select ng-model="selectedReleaseChoice" ng-options="release.name for release in releaseChoices" ng-change="saveSelection()"></select>
+    </div>
+    <div ng-view id="mainView">
+    </div>
 </body>
 </html>

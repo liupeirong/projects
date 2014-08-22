@@ -17,7 +17,6 @@ namespace CDMetric2.Controllers
     {
         private MetricContext db = new MetricContext();
 
-        // GET api/RolloutSummary
         public IQueryable<RolloutSummary> GetRolloutSummaries()
         {
             IQueryable<RolloutSummary> query =
@@ -32,9 +31,8 @@ namespace CDMetric2.Controllers
             return query;
         }
 
-        // GET api/RolloutSummary/5
         [ResponseType(typeof(RolloutSummary))]
-        public async Task<IHttpActionResult> GetRolloutSummary(int id)
+        public async Task<IHttpActionResult> GetRolloutSummaries(int id)
         {
             RolloutSummary rolloutsummary = await db.RolloutSummaries.FindAsync(id);
             if (rolloutsummary == null)
@@ -44,6 +42,25 @@ namespace CDMetric2.Controllers
 
             return Ok(rolloutsummary);
         }
+
+        [ResponseType(typeof(RolloutSummary))]
+        public async Task<IHttpActionResult> GetRolloutSummariesLastN(int n)
+        {
+            List<RolloutSummary> rolloutsummary = n > 0 ? 
+                await db.RolloutSummaries.OrderByDescending(c => c.StartTime).Take(n).ToListAsync() :
+                await db.RolloutSummaries.OrderByDescending(c => c.StartTime).ToListAsync();
+            if (rolloutsummary == null)
+            {
+                return NotFound();
+            }
+            foreach (var rollout in rolloutsummary)
+            {
+                rollout.children = rollout.children.OrderBy(c => c.StartTime).ThenBy(c => c.StageName).ToList();
+            }
+
+            return Ok(rolloutsummary);
+        }
+
 
         protected override void Dispose(bool disposing)
         {
