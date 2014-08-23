@@ -277,7 +277,8 @@ angular.module('ngGrid.services').factory('$domUtilityService',['$utilityService
         });
         return width;
     };
-    domUtilityService.UpdateGridLayout = function($scope, grid) {
+    domUtilityService.UpdateGridLayout = function ($scope, grid) {
+        if (!grid.$root) { return;}
         //catch this so we can return the viewer to their original scroll after the resize!
         var scrollTop = grid.$viewport.scrollTop();
         grid.elementDims.rootMaxW = grid.$root.width();
@@ -995,19 +996,24 @@ var ngEventProvider = function (grid, $scope, domUtilityService, $timeout) {
             grid.$topPanel.on('mousedown', '.ngHeaderScroller', self.onHeaderMouseDown).on('dragover', '.ngHeaderScroller', self.dragOver);
 
             grid.$groupPanel.on('$destroy', function() {
-                grid.$groupPanel.off('mousedown');
-
+                if (grid.$groupPanel){
+                    grid.$groupPanel.off('mousedown');
+                }
                 grid.$groupPanel = null;
             });
 
             if (grid.config.enableColumnReordering) {
-                grid.$topPanel.on('drop', '.ngHeaderScroller', self.onHeaderDrop);
+                if (grid.$topPanel) {
+                    grid.$topPanel.on('drop', '.ngHeaderScroller', self.onHeaderDrop);
+                }
             }
 
-            grid.$topPanel.on('$destroy', function() {
-                grid.$topPanel.off('mousedown');
+            grid.$topPanel.on('$destroy', function () {
+                if (grid.$topPanel) {
+                    grid.$topPanel.off('mousedown');
+                }
 
-                if (grid.config.enableColumnReordering) {
+                if (grid.config.enableColumnReordering && grid.$topPanel) {
                     grid.$topPanel.off('drop');
                 }
 

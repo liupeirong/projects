@@ -23,29 +23,34 @@ mainApp.config([
 ]);
 
 mainApp.controller('globalCfgController', ['$scope', 'globalCfgService', function ($scope, globalCfgService) {
-    $scope.releaseChoices = [
-        {name:'last 10 releases', value:10},
-        {name:'last 20 releases', value:20},
-        {name:'all releases', value:-1}
-    ];
-    $scope.selectedReleaseChoice = $scope.releaseChoices[0];
-    globalCfgService.saveLastNReleases($scope.selectedReleaseChoice.value);
+    $scope.releaseChoices = globalCfgService.getReleaseChoices();
+    $scope.selectedReleaseChoice = globalCfgService.getLastNChoice();
     $scope.saveSelection = function () {
-        globalCfgService.saveLastNReleases($scope.selectedReleaseChoice.value);
+        globalCfgService.saveLastNChoice($scope.selectedReleaseChoice);
         $scope.$broadcast('cfgChange');
     }
 }]);
 
 mainApp.factory('globalCfgService', function () {
-    var lastNReleases = -1;
+    var releaseChoices = [
+        { name: 'last 10 releases', value: 10 },
+        { name: 'last 20 releases', value: 20 },
+        { name: 'all releases', value: -1 }
+    ];
+    var lastNChoice = releaseChoices[0];
 
     return {
-        saveLastNReleases: function (data) {
-            lastNReleases = data;
-            console.log("lastNRelease:" + lastNReleases);
+        saveLastNChoice: function (data) {
+            lastNChoice = data;
         },
         getLastNReleases: function () {
-            return lastNReleases;
+            return lastNChoice.value;
+        },
+        getLastNChoice: function () {
+            return lastNChoice;
+        },
+        getReleaseChoices: function () {
+            return releaseChoices;
         }
     }
 });
