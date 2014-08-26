@@ -76,6 +76,7 @@ metricControllers.controller('rolloutChartsController', ['$scope', 'RolloutDetai
             $scope.data_mm_total = [];
             $scope.data_feeds_total = [];
 
+            $scope.rolloutTotalColor = function () { return function (d, i) { return '#d198eb'; } }
             $scope.lastNReleases = globalCfgService.getLastNReleases();
             RolloutDetails.query({ n: $scope.lastNReleases }, function (data) {
                 angular.forEach(data, function (metric) {
@@ -178,14 +179,14 @@ function db2d3(curstages, currollouts, rolloutdurations, scopedata, scopedatatot
     rollouts.sort();
 
     var seenRollouts = {};
+    var seriesTotal = {};
+    seriesTotal["key"] = ["total"];
+    seriesTotal["values"] = [];
     for (var s = 0; s < stages.length; ++s) {
         var stage = stages[s];
         var series = {};
-        var seriesTotal = {};
         series["key"] = stages[s];
         series["values"] = [];
-        seriesTotal["key"] = ["total"];
-        seriesTotal["values"] = [];
         for (var r = 0; r < rollouts.length; ++r) {
             var startTime = rollouts[r];
             var changeNumber = currollouts[startTime];
@@ -205,6 +206,6 @@ function db2d3(curstages, currollouts, rolloutdurations, scopedata, scopedatatot
             }
         }
         scopedata.push(series);
-        scopedatatotal.push(seriesTotal);
     }
+    scopedatatotal.push(seriesTotal);
 };
