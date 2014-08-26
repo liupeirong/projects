@@ -61,10 +61,20 @@ metricControllers.controller('rolloutChartsController', ['$scope', 'RolloutDetai
             var rollouts_mm = {};
             var rollouts_feeds = {};
 
+            var rollout_duration_web = {};
+            var rollout_duration_caption = {};
+            var rollout_duration_mm = {};
+            var rollout_duration_feeds = {};
+
             $scope.data_web = [];
             $scope.data_caption = [];
             $scope.data_mm = [];
             $scope.data_feeds = [];
+
+            $scope.data_web_total = [];
+            $scope.data_caption_total = [];
+            $scope.data_mm_total = [];
+            $scope.data_feeds_total = [];
 
             $scope.lastNReleases = globalCfgService.getLastNReleases();
             RolloutDetails.query({ n: $scope.lastNReleases }, function (data) {
@@ -105,30 +115,35 @@ metricControllers.controller('rolloutChartsController', ['$scope', 'RolloutDetai
 
                 RolloutSummary.query({ n: $scope.lastNReleases }, function (data) {
                     angular.forEach(data, function (metric) {
+                        var duration = ((metric.DurationInMin / 60).toFixed(1)) / 1;
                         var changeNumber = metric.ChangeNumber.toString();
                         //create rollouts as an associative array like this, used as a dictionary keys:
                         //{ "startTime1":changeNumber1,
                         //  "startTime2":changeNumber2
                         //}
                         if (metric.RolloutName.indexOf('MMServe') > -1) {
+                            rollout_duration_mm[changeNumber] = duration;
                             if (!(metric.StartTime in rollouts_mm))
                                 rollouts_mm[metric.StartTime] = changeNumber;
                         } else if (metric.RolloutName.indexOf('caption') > -1) {
+                            rollout_duration_caption[changeNumber] = duration;
                             if (!(metric.StartTime in rollouts_caption))
                                 rollouts_caption[metric.StartTime] = changeNumber;
                         } else if (metric.RolloutName.indexOf('Feeds') > -1) {
+                            rollout_duration_feeds[changeNumber] = duration;
                             if (!(metric.StartTime in rollouts_feeds))
                                 rollouts_feeds[metric.StartTime] = changeNumber;
                         } else {
+                            rollout_duration_web[changeNumber] = duration;
                             if (!(metric.StartTime in rollouts_web))
                                 rollouts_web[metric.StartTime] = changeNumber;
                         }
                     });
 
-                    db2d3(stages_web, rollouts_web, $scope.data_web);
-                    db2d3(stages_caption, rollouts_caption, $scope.data_caption);
-                    db2d3(stages_mm, rollouts_mm, $scope.data_mm);
-                    db2d3(stages_feeds, rollouts_feeds, $scope.data_feeds);
+                    db2d3(stages_web, rollouts_web, rollout_duration_web, $scope.data_web, $scope.data_web_total);
+                    db2d3(stages_caption, rollouts_caption, rollout_duration_caption, $scope.data_caption, $scope.data_caption_total);
+                    db2d3(stages_mm, rollouts_mm, rollout_duration_mm, $scope.data_mm, $scope.data_mm_total);
+                    db2d3(stages_feeds, rollouts_feeds, rollout_duration_feeds, $scope.data_feeds, $scope.data_feeds_total);
                 });
             });
         };
@@ -149,7 +164,7 @@ metricControllers.controller('rolloutChartsController', ['$scope', 'RolloutDetai
 //         },
 //       ]
 //}
-function db2d3(curstages, currollouts, scopedata) {
+function db2d3(curstages, currollouts, rolloutdurations, scopedata, scopedatatotal) {
     var stages = []; //[stage1, stage2...]
     for (var key in curstages) {
         stages.push(key);
@@ -162,11 +177,15 @@ function db2d3(curstages, currollouts, scopedata) {
     }
     rollouts.sort();
 
+    var seenRollouts = {};
     for (var s = 0; s < stages.length; ++s) {
         var stage = stages[s];
         var series = {};
+        var seriesTotal = {};
         series["key"] = stages[s];
         series["values"] = [];
+        seriesTotal["key"] = ["total"];
+        seriesTotal["values"] = [];
         for (var r = 0; r < rollouts.length; ++r) {
             var startTime = rollouts[r];
             var changeNumber = currollouts[startTime];
@@ -178,7 +197,14 @@ function db2d3(curstages, currollouts, scopedata) {
                 duration = curstages[stage][changeNumber];
             }
             series["values"].push([label, duration]);
+
+            if (!(changeNumber in seenRollouts)) {
+                var durationTotal = rolloutdurations[changeNumber];
+                seriesTotal["values"].push([label, durationTotal]);
+                seenRollouts[changeNumber] = 0;
+            }
         }
         scopedata.push(series);
+        scopedatatotal.push(seriesTotal);
     }
 };
