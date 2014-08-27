@@ -4,23 +4,29 @@ mainApp.config([
     '$routeProvider',
     function ($routeProvider) {
         $routeProvider.
-        when('/rolloutsummary', {
+        when('/deployments/summary', {
             templateUrl: '/Scripts/app/Views/rolloutsummary.html',
             controller: 'rolloutSummaryController'
         }).
-        when('/rolloutdetails', {
+        when('/deployments/details', {
             templateUrl: '/Scripts/app/Views/rolloutdetails.html',
             controller: 'rolloutDetailsController'
         }).
-        when('/rolloutcharts', {
+        when('/deployments/charts', {
             templateUrl: '/Scripts/app/Views/rolloutcharts.html',
             controller: 'rolloutChartsController'
         }).
         otherwise({
-            redirectTo: '/rolloutsummary'
+            redirectTo: '/deployments/summary'
         });
     }
 ]);
+
+mainApp.controller('navController', ['$scope', '$location', function ($scope, $location) {
+    $scope.isActive = function (viewLocation) {
+        return $location.path().indexOf(viewLocation) == 0;
+    };
+}]);
 
 mainApp.controller('globalCfgController', ['$scope', 'globalCfgService', function ($scope, globalCfgService) {
     $scope.releaseChoices = globalCfgService.getReleaseChoices();
