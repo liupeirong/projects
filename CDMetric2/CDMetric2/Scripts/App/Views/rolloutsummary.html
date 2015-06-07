@@ -1,0 +1,7 @@
+﻿<div ng-controller="rolloutSummaryController">
+    <button ng-click="my_tree.expand_all()" class="btn btn-default btn-sm">Expand All</button>
+    <button ng-click="my_tree.collapse_all()" class="btn btn-default btn-sm">Collapse All</button>
+    <br />
+    <br />
+    <tree-grid tree-data="tree_data" col-defs="col_defs" expand-on="expanding_property" tree-control="my_tree" class="tree-table"></tree-grid>
+</div>

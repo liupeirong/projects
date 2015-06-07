@@ -1,0 +1,53 @@
+﻿<div ng-controller="rolloutChartsController">
+    <div><strong>Web rollout total time in hours</strong></div>
+    <div>
+        <nvd3-discrete-bar-chart data="data_web_total" id="webcharttotal" objectequality="true" showxaxis="true" showyaxis="true" showValues="true"
+                              width="1200" height="300" color="rolloutTotalColor()"
+                              tooltips="true" class="chart"></nvd3-discrete-bar-chart>
+    </div>
+    <div><strong>Web rollout stages in hours</strong></div>
+    <div>
+        <nvd3-multi-bar-chart data="data_web" id="webchart" objectequality="true" showxaxis="true" showyaxis="true" showlegend="true"
+                              width="1200" height="300" stacked="true"
+                              interactive="true" tooltips="true" showcontrols="true" class="chart"></nvd3-multi-bar-chart>
+    </div>
+
+    <div><strong>Caption rollout total time in hours</strong></div>
+    <div>
+        <nvd3-discrete-bar-chart data="data_caption_total" id="captioncharttotal" objectequality="true" showxaxis="true" showyaxis="true" showValues="true"
+                              width="1200" height="300" color="rolloutTotalColor()"
+                              tooltips="true" class="chart"></nvd3-discrete-bar-chart>
+    </div>
+    <div><strong>Caption rollout stages in hours</strong></div>
+    <div>
+        <nvd3-multi-bar-chart data="data_caption" id="captionchart" objectequality="true" showxaxis="true" showyaxis="true" showlegend="true"
+                              width="1200" height="300" stacked="true"
+                              interactive="true" tooltips="true" showcontrols="true" class="chart"></nvd3-multi-bar-chart>
+    </div>
+       
+    <div><strong>Multimedia rollout total time in hours</strong></div>
+    <div>
+        <nvd3-discrete-bar-chart data="data_mm_total" id="mmcharttotal" objectequality="true" showxaxis="true" showyaxis="true" showvalues="true"
+                              width="1200" height="300" color="rolloutTotalColor()"
+                              tooltips="true" class="chart"></nvd3-discrete-bar-chart>
+    </div>
+    <div><strong>Multi-media rollout stages in hours</strong></div>
+    <div>
+        <nvd3-multi-bar-chart data="data_mm" id="mmchart" objectequality="true" showxaxis="true" showyaxis="true" showlegend="true"
+                              width="1200" height="300" stacked="true"
+                              interactive="true" tooltips="true" showcontrols="true" class="chart"></nvd3-multi-bar-chart>
+    </div>
+
+    <div><strong>Feeds rollout total time in hours</strong></div>
+    <div>
+        <nvd3-discrete-bar-chart data="data_feeds_total" id="feedscharttotal" objectequality="true" showxaxis="true" showyaxis="true" showvalues="true"
+                              width="1200" height="300" color="rolloutTotalColor()" 
+                              tooltips="true" class="chart"></nvd3-discrete-bar-chart>
+    </div>
+    <div><strong>Feeds rollout stages in hours</strong></div>
+    <div>
+        <nvd3-multi-bar-chart data="data_feeds" id="feedschart" objectequality="true" showxaxis="true" showyaxis="true" showlegend="true"
+                              width="1200" height="300" stacked="true"
+                              interactive="true" tooltips="true" showcontrols="true" class="chart"></nvd3-multi-bar-chart>
+    </div>
+</div>            

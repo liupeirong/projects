@@ -1,0 +1,17 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Continuous Deployment Metrics</title>
+    <link rel="stylesheet" href="~/content/ng-grid.css">  
+    <link rel="stylesheet" href="~/content/treeGrid.css">
+    <link rel="stylesheet" href="~/content/nv.d3.css">
+</head>
+
+<body ng-controller="globalCfgController">
+    <div>
+        <select ng-model="selectedReleaseChoice" ng-options="release.name for release in releaseChoices" ng-change="saveSelection()"></select>
+    </div>
+    <div ng-view id="mainView">
+    </div>
+</body>
+</html>
